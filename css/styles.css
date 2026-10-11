@@ -363,3 +363,19 @@ textarea{min-height:120px;resize:vertical}
 /* utility */
 .mt{margin-top:22px}.center{text-align:center}
 .divider{height:1px;background:var(--line-soft);margin:0}
+/* Areas We Serve (contact) — ivory card, gold accents, prominent preferred sectors */
+.serve-card{background:#FFFEFB;border:1px solid var(--line);border-radius:18px;padding:clamp(24px,4vw,44px);margin-top:26px;box-shadow:var(--shadow-sm);text-align:center}
+.serve-kicker{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-deep);font-weight:800;margin:10px 0 0}
+.serve-copy{color:#4d4a44;max-width:64ch;margin:14px auto 0}
+.serve-label{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);font-weight:800;margin:26px 0 12px}
+.serve-pills{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.serve-pills li{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font-size:14.5px;font-weight:700;border:1px solid var(--gold);background:#fff;color:var(--charcoal)}
+.serve-pills li svg{width:16px;height:16px;fill:none;stroke:var(--gold-deep);stroke-width:2;flex:0 0 16px}
+.serve-pills-primary li{background:linear-gradient(180deg,#FFFDF6,#FBF5E7);border-color:var(--gold);box-shadow:0 6px 18px rgba(182,154,97,.16);font-size:15px;padding:12px 22px}
+.serve-pills-secondary li{background:var(--ivory);border-style:dashed;color:#5a544a;font-weight:600}
+.serve-note{font-size:13px;margin:20px auto 0;max-width:62ch}
+@media(max-width:560px){.serve-pills-primary li{font-size:14px;padding:10px 16px}}
+/* YouTube footer icon — restrained red glyph inside existing luxury circle */
+.foot-social a.yt svg{fill:#E0655F}
+.foot-social a.yt:hover svg{fill:#ff6b64}
+.link-gold{color:var(--gold-deep);font-weight:700}

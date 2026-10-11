@@ -4,10 +4,10 @@ Premium white-and-gold luxury interior website for DIVINEDS (Delhi NCR).
 
 ## Structure
 
-- `index.html` — homepage (cinematic video hero + editorial sections + "Spaces in Motion" 3-film showcase)
-- `about.html` (full-bleed Unsplash banner hero), `services.html` (full-bleed Unsplash banner hero + 2 click-to-play films), `projects.html` (full-bleed hero + curated gallery), `process.html` (execution hero), `contact.html` (compact Unsplash banner hero + prominent WhatsApp enquiry form), `consultation.html` (compact kitchen banner + full form)
+- `index.html` — homepage (cinematic video hero + editorial sections + "Spaces in Motion" 3-film showcase + 6 service families)
+- `about.html` (full-bleed Unsplash banner hero), `services.html` (full-bleed Unsplash banner hero + 2 click-to-play films + 17 services in 6 families incl. WPC Fluted Panels & European Moulding Design), `projects.html` (full-bleed hero + curated gallery incl. 6 new foyer/bedroom/ceiling/TV-wall photos), `process.html` (execution hero), `contact.html` (compact Unsplash banner hero + EmailJS enquiry form + "Areas We Serve": Noida Sectors 75–79, Greater Noida, Delhi NCR), `consultation.html` (compact kitchen banner + full EmailJS form incl. new service checkboxes)
 - `css/styles.css` — full design system (ivory `#F7F4EE`, white, champagne `#D8C7A5`, gold `#B69A61`, charcoal `#292925`)
-- `js/main.js` — `SITE_CONFIG`, mobile nav, reveal, gallery filter + lightbox, service WhatsApp links, consultation form → WhatsApp, click-to-play film cards
+- `js/main.js` — `SITE_CONFIG` (email `divineds006@gmail.com`, phone `8755252677` / `918755252677`, EmailJS `service_g3s3is3` / `template_4n4qugo` / public key, YouTube channel, preferred/additional areas), mobile nav, reveal, gallery filter + lightbox, service WhatsApp links (17 services incl. WPC + Moulding), contact + consultation forms → EmailJS (WhatsApp fallback links preserved), click-to-play film cards
 - `logo.jpg` — supplied brand logo (black/gold, used in header/footer/favicon)
 - `herovideobanner.mp4` — homepage hero video (autoplay muted loop playsinline, poster fallback)
 - `assets/` — 57 supplied photographs + 10 supporting videos (originals preserved, never renamed)
@@ -46,11 +46,26 @@ Or use VS Code Live Server / `npx serve`.
 All contact details live in `js/main.js` → `SITE_CONFIG`:
 
 - Phone display: `8755252677` → `tel:+918755252677`
-- WhatsApp: `https://wa.me/918755252677` + `encodeURIComponent()` per-service messages
-- Email: `divinedsinterior@gmail.com` → `mailto:`
-- Two locations preserved separately (see Contact page). Map links are Google search URLs built from the exact supplied text.
+- WhatsApp: `https://wa.me/918755252677` + `encodeURIComponent()` per-service messages (17 services)
+- Email: `divineds006@gmail.com` → `mailto:`
+- YouTube: `https://youtube.com/@divinedsinterior?si=07XDv7aZhD7g5hRN` (footer icon on all pages + homepage social row)
+- EmailJS: Service ID `service_g3s3is3`, Template ID `template_4n4qugo`, Public Key `1Fx-2GaeWHg3GEjwx` — contact + consultation forms send via the browser SDK; WhatsApp fallback links retained. IMPORTANT: the template's actual "To Email" recipient must be set to `divineds006@gmail.com` inside the EmailJS dashboard — it cannot be changed from this repo.
+- Preferred service areas (Contact page, not offices): Noida Sectors 75–79; additional: Greater Noida, Delhi NCR.
+- Two business addresses preserved separately (see Contact page). Map links are Google search URLs built from the exact supplied text.
 
 To change the number/email, edit `SITE_CONFIG` once — every button updates.
+
+## New photos (Nov 2026 client batch — all 9 inspected at pixel level)
+
+- `assets/new 1.jpeg` (960×1280) — living ceiling with moulded border, chandeliers + wainscot walls → Projects gallery (Dining & Ceilings as "Living ceiling · moulded detail"). Minor clutter at frame bottom; ceiling subject is strong.
+- `assets/new 2.jpeg` (1080×1045, byte-identical to `assets/service.jpeg`) — foyer with European wall-moulding panels, gold mirror, marble floor, chandelier → Services → European Moulding Design hero + Projects gallery (Entrances as "Foyer · moulded wall panels"). Best moulding evidence on site.
+- `assets/new 3.jpeg` = `new 4.jpeg` (duplicates, 780×1040) — TV wall with white + wood fluted panels, floating console → Services → WPC Fluted Panels hero + Projects gallery once as `new 3.jpeg` (Living, "TV wall · fluted panels"). Person reflection + OPPO watermark visible; honest on-site photo, consistent with gallery style. `new 4.jpeg` not referenced (duplicate).
+- `assets/new 5.jpeg` (918×1204) — corridor with wall moulding, pendant, marble floor → Projects gallery (Entrances, "Corridor · moulded panels"). Slightly soft but suitable.
+- `assets/new 6.jpeg` (1080×589) — luxury bedroom, arched backlit headboard, gold insets → Projects gallery (Living, "Bedroom · backlit feature wall"). Highest finish; appears staged/render-like — captioned descriptively, no project claims.
+- `assets/new 7.jpeg` (715×731) — backlit jali scroll ceiling panel → Projects gallery (Dining & Ceilings, "Ceiling · backlit panel").
+- `assets/new 8.jpeg` (500×375) — EXCLUDED from gallery: genuine fluted wall samples but very low resolution; would degrade the luxury grid. Original preserved.
+- `assets/new 9.jpeg` (1200×1600) — EXCLUDED: shows fluted TV side panels but unfinished (tools, dust, wiring, hand with remote, TV streaming UI) — fails the luxury bar per existing exclusion policy (cf. cricket-TV removal). Original preserved.
+- No dedicated `WPC*` / `*moulding*` filenames were supplied, so the above genuine-content matches are used and documented here instead of inventing files.
 
 ## Asset map (verified visually)
 

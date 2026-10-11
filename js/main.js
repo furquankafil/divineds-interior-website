@@ -1,11 +1,19 @@
-/* DIVINEDS — central config + interactions */
+/* DIVINEDS — central config + interactions (single source of truth) */
 const SITE_CONFIG = {
   brandName: "DIVINEDS",
   tagline: "Interiors That Inspire",
   phoneDisplay: "8755252677",
   phoneInternational: "918755252677",
   get whatsappUrl() { return "https://wa.me/" + this.phoneInternational; },
-  email: "divinedsinterior@gmail.com",
+  email: "divineds006@gmail.com",
+  youtubeUrl: "https://youtube.com/@divinedsinterior?si=07XDv7aZhD7g5hRN",
+  emailjs: {
+    serviceId: "service_g3s3is3",
+    templateId: "template_4n4qugo",
+    publicKey: "1Fx-2GaeWHg3GEjwx"
+  },
+  preferredAreas: ["Noida Sector 75", "Noida Sector 76", "Noida Sector 77", "Noida Sector 78", "Noida Sector 79"],
+  additionalAreas: ["Greater Noida", "Delhi NCR"],
   locations: [
     "Shop no - 11 Main dadri road, pillar no - 58, Gautam Budh Nagar (UP) 210304",
     "Shop no - 11 Barola Tpoint (service road Hanuman murti) Main dadri road, pillar no - 58, Gautam Budh Nagar (UP) 210304"
@@ -29,7 +37,9 @@ const SERVICE_MESSAGES = {
   "Networking and Structured Cabling": "Hello DIVINEDS, I am interested in your Networking and Structured Cabling service. Please share more details.",
   "Aluminium Work": "Hello DIVINEDS, I am interested in your Aluminium Work service (frames, partitions and related work). Please share more details.",
   "General Consultation": "Hello DIVINEDS, I would like to book a consultation to discuss my interior project. Please share the next steps.",
-  "Project Enquiry": "Hello DIVINEDS, I saw your interior gallery and would like to enquire about a similar project. Please share more details."
+  "Project Enquiry": "Hello DIVINEDS, I saw your interior gallery and would like to enquire about a similar project. Please share more details.",
+  "WPC Fluted Panels": "Hello DIVINEDS, I am interested in WPC Fluted Panels for my interior project. Please share more details.",
+  "European Moulding Design": "Hello DIVINEDS, I am interested in European Moulding Design for my interior project. Please share more details."
 };
 
 function waLink(message) {
@@ -222,6 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
     el.setAttribute("rel", "noopener");
   });
 
+  initEmailJs();
   initGallery();
   initConsultationForm();
   initContactForm();
@@ -337,7 +348,51 @@ function initGallery() {
   }
 }
 
-/* ---------- Contact page enquiry form -> WhatsApp (no backend) ---------- */
+/* ---------- EmailJS (browser SDK, public key only — no secrets) ---------- */
+function emailjsReady() { return (typeof window.emailjs !== "undefined" && window.emailjs && typeof window.emailjs.send === "function"); }
+function initEmailJs() {
+  try {
+    if (typeof window.emailjs !== "undefined" && window.emailjs && typeof window.emailjs.init === "function" && SITE_CONFIG.emailjs && SITE_CONFIG.emailjs.publicKey) {
+      window.emailjs.init({ publicKey: SITE_CONFIG.emailjs.publicKey });
+    }
+  } catch (e) {}
+}
+function buildEmailParams(prefix, v) {
+  // Covers common EmailJS template variable names so the dashboard template
+  // can use whichever placeholders it already defines. The actual "To Email"
+  // recipient must be set inside the EmailJS dashboard template/request to
+  // divineds006@gmail.com — it cannot be changed from frontend code.
+  const serviceText = v.service || v.services || "";
+  const typeText = v.type || "";
+  const detailText = v.message || v.details || "";
+  const summary = [prefix, typeText ? "Project Type: " + typeText : null, v.location ? "Project Location: " + v.location : null, serviceText ? "Service Required: " + serviceText : null, detailText ? "Details: " + detailText : null].filter(Boolean).join(" | ");
+  return {
+    to_email: SITE_CONFIG.email,
+    business_email: SITE_CONFIG.email,
+    reply_to: v.email || "",
+    from_name: v.name || "",
+    name: v.name || "",
+    from_email: v.email || "",
+    email: v.email || "",
+    phone: v.phone || "",
+    telephone: v.phone || "",
+    project_type: typeText,
+    project_location: v.location || "",
+    location: v.location || "",
+    service: serviceText,
+    services: v.services || serviceText,
+    message: detailText,
+    details: detailText,
+    enquiry_summary: summary,
+    page_url: (location.href || "").split("#")[0]
+  };
+}
+function sendEnquiryEmail(params) {
+  if (!emailjsReady()) return Promise.reject(new Error("Email service failed to load. Please check your connection or use WhatsApp below."));
+  return window.emailjs.send(SITE_CONFIG.emailjs.serviceId, SITE_CONFIG.emailjs.templateId, params);
+}
+
+/* ---------- Contact page enquiry form -> EmailJS (WhatsApp kept as alternative) ---------- */
 function initContactForm() {
   const form = document.getElementById("contactForm");
   if (!form) return;
@@ -394,12 +449,25 @@ function initContactForm() {
       "",
       "Please share the next steps. Thank you."
     ].filter(Boolean).join("\n");
-    status.innerHTML = "Details validated. Opening WhatsApp with your enquiry — <strong>please press Send in WhatsApp to complete your request.</strong> No data has been stored on our website.";
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const origLabel = submitBtn ? submitBtn.textContent : "";
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }
+    status.innerHTML = "Sending your enquiry securely… please wait.";
     status.style.display = "block";
-    window.open(waLink(lines), "_blank", "noopener");
+    sendEnquiryEmail(buildEmailParams("New contact enquiry from " + v.name + " (" + v.phone + ").", v)).then(function () {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = origLabel; }
+      status.innerHTML = "Thank you, " + v.name.split(" ")[0] + ". Your enquiry has been sent to <strong>" + SITE_CONFIG.email + "</strong> — our team will contact you shortly. Prefer WhatsApp? <a href=\"" + waLink(lines) + "\" target=\"_blank\" rel=\"noopener\"><strong>Continue on WhatsApp →</strong></a>";
+      status.style.display = "block";
+      form.reset();
+    }, function (err) {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = origLabel; }
+      // Data preserved (no reset). Offer WhatsApp fallback with the same details.
+      status.innerHTML = "Sorry — the email could not be sent right now (" + ((err && err.text) || "connection issue") + "). Your entries have been kept. Please try again or <a href=\"" + waLink(lines) + "\" target=\"_blank\" rel=\"noopener\"><strong>send the same enquiry on WhatsApp →</strong></a>";
+      status.style.display = "block";
+    });
   });
 }
-/* ---------- Consultation form -> WhatsApp ---------- */
+/* ---------- Consultation form -> EmailJS (WhatsApp kept as alternative) ---------- */
 function initConsultationForm() {
   const form = document.getElementById("consultForm");
   if (!form) return;
@@ -465,8 +533,24 @@ function initConsultationForm() {
       "",
       "Please share the next steps. Thank you."
     ].filter(Boolean).join("\n");
-    status.innerHTML = "Details validated. Opening WhatsApp with your enquiry — <strong>please press Send in WhatsApp to complete your request.</strong> No data has been stored on our website.";
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const origLabel = submitBtn ? submitBtn.textContent : "";
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }
+    status.innerHTML = "Sending your consultation request securely… please wait.";
     status.style.display = "block";
-    window.open(waLink(lines), "_blank", "noopener");
+    sendEnquiryEmail(buildEmailParams("New consultation request from " + v.name + " (" + v.phone + ").", {
+      name: v.name, phone: v.phone, email: v.email, type: v.type, location: v.location,
+      service: v.services, services: v.services,
+      message: [v.property ? "Property: " + v.property : null, v.area ? "Approx. Area: " + v.area : null, v.budget ? "Budget Range: " + v.budget : null, v.start ? "Expected Start: " + v.start : null, v.contact ? "Preferred Contact: " + v.contact : null, v.details ? "Details: " + v.details : null].filter(Boolean).join(" | ")
+    })).then(function () {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = origLabel; }
+      status.innerHTML = "Thank you, " + v.name.split(" ")[0] + ". Your consultation request has been sent to <strong>" + SITE_CONFIG.email + "</strong> — our team will contact you shortly. Prefer WhatsApp? <a href=\"" + waLink(lines) + "\" target=\"_blank\" rel=\"noopener\"><strong>Continue on WhatsApp →</strong></a>";
+      status.style.display = "block";
+      form.reset();
+    }, function (err) {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = origLabel; }
+      status.innerHTML = "Sorry — the email could not be sent right now (" + ((err && err.text) || "connection issue") + "). Your entries have been kept. Please try again or <a href=\"" + waLink(lines) + "\" target=\"_blank\" rel=\"noopener\"><strong>send the same request on WhatsApp →</strong></a>";
+      status.style.display = "block";
+    });
   });
 }
