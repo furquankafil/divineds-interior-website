@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- NOTE: production domain not yet supplied. Replace https://REPLACE-WITH-PRODUCTION-DOMAIN with the real domain before launch. Paths below are the verified site pages. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://REPLACE-WITH-PRODUCTION-DOMAIN/index.html</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://REPLACE-WITH-PRODUCTION-DOMAIN/about.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://REPLACE-WITH-PRODUCTION-DOMAIN/services.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://REPLACE-WITH-PRODUCTION-DOMAIN/projects.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://REPLACE-WITH-PRODUCTION-DOMAIN/process.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://REPLACE-WITH-PRODUCTION-DOMAIN/contact.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://REPLACE-WITH-PRODUCTION-DOMAIN/consultation.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://divineds.com/</loc><lastmod>2026-10-11</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://divineds.com/about.html</loc><lastmod>2026-10-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://divineds.com/services.html</loc><lastmod>2026-10-11</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://divineds.com/projects.html</loc><lastmod>2026-10-11</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://divineds.com/process.html</loc><lastmod>2026-10-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://divineds.com/contact.html</loc><lastmod>2026-10-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://divineds.com/consultation.html</loc><lastmod>2026-10-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
